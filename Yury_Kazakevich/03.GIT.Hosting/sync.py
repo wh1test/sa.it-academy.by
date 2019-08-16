@@ -45,6 +45,5 @@ repo = Repo(PATH_OF_GIT_REPO)
 repo.index.commit(str(COMMIT_MESSAGE).strip())
 
 for REMOTE in w:
-    print (REMOTE)
     if REMOTE != 'prepod':
         git_push(PATH_OF_GIT_REPO, REMOTE)
