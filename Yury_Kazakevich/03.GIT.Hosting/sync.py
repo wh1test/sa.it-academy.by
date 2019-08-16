@@ -9,12 +9,11 @@ def git_push(PATH_OF_GIT_REPO, REMOTE):
         #repo.git.add(update=True)
         #repo.git.add()
         origin = repo.remote(name=(str(REMOTE)))
-        origin.fetch()
-        origin.pull()
-        origin.push()
+        #origin.fetch()
+        origin.push(force=True)
         print('Successfull push to: ', REMOTE)
     except Exception as e:
-        print('Some error occured while pushing the code: ',e)
+        print(f'Some error occured while pushing the code to {REMOTE}: ',e)
 
 
 def readcfg(CFG):
@@ -32,18 +31,20 @@ def readcfg(CFG):
                     res.append(match[0][2])
                 c += 1
     else:
-        print("Config not found! Exiting!")
+        print("Config not found! Change you apth to git working directory and try again. Exiting...")
         sys.exit(1)
     return res
 
 
 PATH_OF_GIT_REPO = r'.git'  # make sure .git folder is properly configured
-COMMIT_MESSAGE = input("Specify the comment please: ")
+COMMIT_MESSAGE = input("Specify a comment please: ")
 CFG = f"{PATH_OF_GIT_REPO}/config"
     #git_push()
 w = readcfg(CFG)
 repo = Repo(PATH_OF_GIT_REPO)
-repo.index.commit(COMMIT_MESSAGE)
+repo.index.commit(str(COMMIT_MESSAGE).strip())
 
 for REMOTE in w:
-    git_push(PATH_OF_GIT_REPO, REMOTE)
+    print (REMOTE)
+    if REMOTE != 'prepod':
+        git_push(PATH_OF_GIT_REPO, REMOTE)
